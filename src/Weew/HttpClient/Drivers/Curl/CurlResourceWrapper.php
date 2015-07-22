@@ -97,6 +97,12 @@ class CurlResourceWrapper {
             CURLOPT_SSL_VERIFYPEER,
             $this->options->get(HttpClientOptions::VERIFY_SSL, true)
         );
+
+        foreach ($this->options->getAll() as $option => $value) {
+            if (str_starts_with($option, 'CURLOPT_') and defined($option)) {
+                $this->setOption(constant($option), $value);
+            }
+        }
     }
 
     /**

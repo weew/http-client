@@ -112,4 +112,19 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
         $response = $client->send($request);
         $this->assertTrue($response->isOk());
     }
+
+    public function test_process_raw_options() {
+        $client = new HttpClient();
+        $url = new Url('http://google.com');
+        $request = new HttpRequest(HttpRequestMethod::GET, $url);
+
+        $response = $client->send($request);
+        $this->assertTrue($response->isRedirect());
+
+
+        $client->getOptions()->set('CURLOPT_FOLLOWLOCATION', true);
+
+        $response = $client->send($request);
+        $this->assertTrue($response->isOk());
+    }
 }
