@@ -3,7 +3,6 @@
 namespace Weew\HttpClient\Drivers\Curl;
 
 use Weew\Http\HttpRequest;
-use Weew\Http\HttpRequestMethod;
 use Weew\Http\IHttpRequest;
 use Weew\HttpClient\HttpClientOptions;
 use Weew\HttpClient\IHttpClientOptions;
@@ -28,7 +27,10 @@ class CurlResourceWrapper {
      * @param IHttpClientOptions $options
      * @param IHttpRequest $httpRequest
      */
-    public function __construct(IHttpClientOptions $options = null, IHttpRequest $httpRequest = null) {
+    public function __construct(
+        IHttpClientOptions $options = null,
+        IHttpRequest $httpRequest = null
+    ) {
         if ( ! $options instanceof IHttpClientOptions) {
             $options = new HttpClientOptions();
         }
@@ -83,12 +85,18 @@ class CurlResourceWrapper {
     protected function sendOptions() {
         $this->setOption(CURLOPT_URL, $this->createUrl());
         $this->setOption(CURLOPT_CUSTOMREQUEST, $this->request->getMethod());
-        $this->setOption(CURLOPT_RETURNTRANSFER, 1);
-        $this->setOption(CURLOPT_HEADER, 1);
+        $this->setOption(CURLOPT_RETURNTRANSFER, true);
+        $this->setOption(CURLOPT_HEADER, true);
 
-        if ($this->options->has(HttpClientOptions::FOLLOW_REDIRECT)) {
-            $this->setOption(CURLOPT_FOLLOWLOCATION, true);
-        }
+        $this->setOption(
+            CURLOPT_FOLLOWLOCATION,
+            $this->options->get(HttpClientOptions::FOLLOW_REDIRECT, false)
+        );
+
+        $this->setOption(
+            CURLOPT_SSL_VERIFYPEER,
+            $this->options->get(HttpClientOptions::VERIFY_SSL, true)
+        );
     }
 
     /**
@@ -120,7 +128,7 @@ class CurlResourceWrapper {
         }
 
         if ($body !== null) {
-            $this->setOption(CURLOPT_POST, 1);
+            $this->setOption(CURLOPT_POST, true);
             $this->setOption(CURLOPT_POSTFIELDS, $body);
         }
     }

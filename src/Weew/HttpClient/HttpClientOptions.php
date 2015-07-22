@@ -9,6 +9,11 @@ class HttpClientOptions implements IHttpClientOptions {
     const FOLLOW_REDIRECT = 'follow_redirect';
 
     /**
+     * Client should verify the SSL certificates.
+     */
+    const VERIFY_SSL = 'verify_ssl';
+
+    /**
      * @var array
      */
     protected $options = [];

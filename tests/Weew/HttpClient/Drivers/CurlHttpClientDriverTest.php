@@ -86,4 +86,30 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
         );
         $this->assertEquals('yolo', $response->getContent());
     }
+
+    public function test_follow_redirects() {
+        $client = new HttpClient();
+        $url = new Url('http://google.com');
+        $request = new HttpRequest(HttpRequestMethod::GET, $url);
+
+        $response = $client->send($request);
+        $this->assertTrue($response->isRedirect());
+
+        $client->followRedirects();
+
+        $response = $client->send($request);
+        $this->assertTrue($response->isOk());
+    }
+
+    public function test_verify_ssl() {
+        $client = new HttpClient();
+        $client->followRedirects();
+        $client->verifySSL(false);
+
+        $url = new Url('https://google.com');
+        $request = new HttpRequest(HttpRequestMethod::GET, $url);
+
+        $response = $client->send($request);
+        $this->assertTrue($response->isOk());
+    }
 }

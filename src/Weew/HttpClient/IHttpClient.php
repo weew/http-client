@@ -22,4 +22,11 @@ interface IHttpClient {
      * @param bool|true $value
      */
     function followRedirects($value = true);
+
+    /**
+     * @param bool|true $value
+     *
+     * @return mixed
+     */
+    function verifySSL($value = true);
 }

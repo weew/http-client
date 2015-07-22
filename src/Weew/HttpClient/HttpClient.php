@@ -77,4 +77,13 @@ class HttpClient implements IHttpClient {
     public function followRedirects($value = true) {
         $this->getOptions()->set(HttpClientOptions::FOLLOW_REDIRECT, $value);
     }
+
+    /**
+     * @param bool|true $value
+     *
+     * @return mixed
+     */
+    public function verifySSL($value = true) {
+        $this->getOptions()->set(HttpClientOptions::VERIFY_SSL, $value);
+    }
 }
