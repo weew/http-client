@@ -3,12 +3,12 @@
 namespace Tests\Weew\HttpClient\Drivers;
 
 use PHPUnit_Framework_TestCase;
+use Weew\HttpClient\Drivers\Curl\CurlHttpClientDriver;
+use Weew\Http\HttpRequest;
+use Weew\Http\HttpRequestMethod;
 use Weew\Http\HttpStatusCode;
 use Weew\HttpBlueprint\BlueprintServer;
-use Weew\HttpClient\Drivers\Curl\CurlHttpClientDriver;
 use Weew\HttpClient\HttpClient;
-use Weew\Http\HttpRequestMethod;
-use Weew\Http\HttpRequest;
 use Weew\Url\Url;
 
 class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {

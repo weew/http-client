@@ -2,9 +2,9 @@
 
 namespace Weew\HttpClient;
 
+use Weew\HttpClient\Drivers\Curl\CurlHttpClientDriver;
 use Weew\Http\IHttpRequest;
 use Weew\Http\IHttpResponse;
-use Weew\HttpClient\Drivers\Curl\CurlHttpClientDriver;
 
 class HttpClient implements IHttpClient {
     /**

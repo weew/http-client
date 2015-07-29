@@ -2,14 +2,16 @@
 
 namespace Weew\HttpClient\Drivers\Curl;
 
+use Weew\Curl\CurlResource;
+use Weew\Curl\ICurlResource;
 use Weew\Http\HttpRequest;
 use Weew\Http\IHttpRequest;
 use Weew\HttpClient\HttpClientOptions;
 use Weew\HttpClient\IHttpClientOptions;
 
-class CurlRequestWrapper {
+class RequestBuilder {
     /**
-     * @var mixed
+     * @var ICurlResource
      */
     protected $resource;
 
@@ -26,10 +28,12 @@ class CurlRequestWrapper {
     /**
      * @param IHttpClientOptions $options
      * @param IHttpRequest $httpRequest
+     * @param ICurlResource $resource
      */
     public function __construct(
         IHttpClientOptions $options = null,
-        IHttpRequest $httpRequest = null
+        IHttpRequest $httpRequest = null,
+        ICurlResource $resource = null
     ) {
         if ( ! $options instanceof IHttpClientOptions) {
             $options = new HttpClientOptions();
@@ -39,68 +43,57 @@ class CurlRequestWrapper {
             $httpRequest = new HttpRequest();
         }
 
+        if ( ! $resource instanceof ICurlResource) {
+            $resource = new CurlResource();
+        }
+
         $this->options = $options;
         $this->request = $httpRequest;
+        $this->resource = $resource;
 
-        $this->init();
+        $this->setOptions();
+        $this->setHeaders();
+        $this->setContent();
     }
 
     /**
-     * @param $option
-     * @param $value
+     * @return ResponseBuilder
      */
-    public function setOption($option, $value) {
-        curl_setopt($this->resource, $option, $value);
-    }
+    public function send() {
+        $httpResponse = $this->resource->exec();
 
-    /**
-     * @return CurlResponseWrapper
-     */
-    public function exec() {
-        $httpResponse = curl_exec($this->resource);
-
-        return new CurlResponseWrapper($this->resource, $httpResponse);
+        return new ResponseBuilder($httpResponse, $this->resource);
     }
 
     /**
      * Close resource.
      */
     public function close() {
-        curl_close($this->resource);
-    }
-
-    /**
-     * Initialize a curl resource.
-     */
-    protected function init() {
-        $this->resource = curl_init();
-        $this->sendOptions();
-        $this->sendHeaders();
-        $this->sendContent();
+        $this->resource->close();
     }
 
     /**
      * Process and client settings.
      */
-    protected function sendOptions() {
-        $this->setOption(CURLOPT_URL, $this->createUrl());
-        $this->setOption(CURLOPT_CUSTOMREQUEST, $this->request->getMethod());
-        $this->setOption(CURLOPT_RETURNTRANSFER, true);
-        $this->setOption(CURLOPT_HEADER, true);
+    protected function setOptions() {
+        $this->resource->setOption(CURLOPT_URL, $this->createUrl());
+        $this->resource->setOption(CURLOPT_CUSTOMREQUEST, $this->request->getMethod());
+        $this->resource->setOption(CURLOPT_RETURNTRANSFER, true);
+        $this->resource->setOption(CURLOPT_HEADER, true);
 
-        $this->setOption(
+        $this->resource->setOption(
             CURLOPT_FOLLOWLOCATION,
             $this->options->get(HttpClientOptions::FOLLOW_REDIRECT, false)
         );
 
-        $this->setOption(
+        $this->resource->setOption(
             CURLOPT_SSL_VERIFYPEER,
             $this->options->get(HttpClientOptions::VERIFY_SSL, true)
         );
 
         foreach ($this->options->getAll() as $option => $value) {
             if (str_starts_with($option, 'CURLOPT_') and defined($option)) {
-                $this->setOption(constant($option), $value);
+                $this->resource->setOption(constant($option), $value);
             }
         }
     }
@@ -108,23 +101,23 @@ class CurlRequestWrapper {
     /**
      * Process and apply request headers.
      */
-    protected function sendHeaders() {
+    protected function setHeaders() {
         $headers = $this->request->getHeaders()->getAll();
         $curlHeaders = $this->createCurlHeaders($headers);
-        $this->setOption(CURLOPT_HTTPHEADER, $curlHeaders);
+        $this->resource->setOption(CURLOPT_HTTPHEADER, $curlHeaders);
 
         if ($this->request->getBasicAuth()->hasBasicAuth()) {
             $basicAuthHeader = $this->createBasicAuthHeader(
                 $this->request->getBasicAuth()->getBasicAuthToken()
             );
-            $this->setOption(CURLOPT_HTTPHEADER, [$basicAuthHeader]);
+            $this->resource->setOption(CURLOPT_HTTPHEADER, [$basicAuthHeader]);
         }
     }
 
     /**
      * Send request content.
      */
-    protected function sendContent() {
+    protected function setContent() {
         $body = null;
 
         if ($this->request->hasContent()) {
@@ -134,8 +127,8 @@ class CurlRequestWrapper {
         }
 
         if ($body !== null) {
-            $this->setOption(CURLOPT_POST, true);
-            $this->setOption(CURLOPT_POSTFIELDS, $body);
+            $this->resource->setOption(CURLOPT_POST, true);
+            $this->resource->setOption(CURLOPT_POSTFIELDS, $body);
         }
     }
 

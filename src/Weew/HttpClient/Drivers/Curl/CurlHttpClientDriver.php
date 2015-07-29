@@ -14,11 +14,11 @@ class CurlHttpClientDriver implements IHttpClientDriver {
      *
      * @return IHttpResponse
      */
-    function send(IHttpClientOptions $options, IHttpRequest $httpRequest) {
-        $resourceWrapper = new CurlRequestWrapper($options, $httpRequest);
-        $responseWrapper = $resourceWrapper->exec();
-        $httpResponse = $responseWrapper->createResponse();
-        $resourceWrapper->close();
+    public function send(IHttpClientOptions $options, IHttpRequest $httpRequest) {
+        $requestBuilder = new RequestBuilder($options, $httpRequest);
+        $responseBuilder = $requestBuilder->send();
+        $httpResponse = $responseBuilder->createResponse();
+        $requestBuilder->close();
 
         return $httpResponse;
     }
