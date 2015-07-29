@@ -74,7 +74,7 @@ class CurlResponseWrapper {
                 continue;
             }
 
-            list($key, $value) = explode(':', $line);
+            list($key, $value) = explode(':', $line, 2);
             $headers[trim($key)] = trim($value);
         }
 

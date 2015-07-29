@@ -15,7 +15,7 @@ class CurlHttpClientDriver implements IHttpClientDriver {
      * @return IHttpResponse
      */
     function send(IHttpClientOptions $options, IHttpRequest $httpRequest) {
-        $resourceWrapper = new CurlResourceWrapper($options, $httpRequest);
+        $resourceWrapper = new CurlRequestWrapper($options, $httpRequest);
         $responseWrapper = $resourceWrapper->exec();
         $httpResponse = $responseWrapper->createResponse();
         $resourceWrapper->close();

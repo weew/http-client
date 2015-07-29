@@ -7,7 +7,7 @@ use Weew\Http\IHttpRequest;
 use Weew\HttpClient\HttpClientOptions;
 use Weew\HttpClient\IHttpClientOptions;
 
-class CurlResourceWrapper {
+class CurlRequestWrapper {
     /**
      * @var mixed
      */
