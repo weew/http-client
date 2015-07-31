@@ -3,23 +3,9 @@
 namespace Tests\Weew\HttpClient;
 
 use PHPUnit_Framework_TestCase;
+use Weew\HttpClient\Drivers\Curl\CurlHttpClientDriver;
 use Weew\HttpClient\HttpClient;
-use Weew\HttpClient\IHttpClientDriver;
-use Weew\HttpClient\IHttpClientOptions;
-use Weew\Http\IHttpRequest;
-
-class FakeHttpClientDriver implements IHttpClientDriver {
-    function send(IHttpClientOptions $options, IHttpRequest $request) {}
-}
-
-class FakeHttpClientOptions implements IHttpClientOptions {
-    function get($option, $default = null) {}
-    function set($option, $value) {}
-    function getAll() {}
-    function remove($option) {}
-    function has($option) {}
-    function merge($options) {}
-}
+use Weew\HttpClient\HttpClientOptions;
 
 class HttpClientTest extends PHPUnit_Framework_TestCase {
     public function test_create_client() {
@@ -27,16 +13,16 @@ class HttpClientTest extends PHPUnit_Framework_TestCase {
     }
 
     public function test_create_client_with_driver() {
-        $driver = new FakeHttpClientDriver();
+        $driver = new CurlHttpClientDriver();
         $client = new HttpClient($driver);
 
-        $this->assertTrue($client->getDriver() instanceof FakeHttpClientDriver);
+        $this->assertTrue($client->getDriver() === $driver);
     }
 
     public function test_create_client_with_options() {
-        $options = new FakeHttpClientOptions();
+        $options = new HttpClientOptions();
         $client = new HttpClient(null, $options);
 
-        $this->assertTrue($client->getOptions() instanceof FakeHttpClientOptions);
+        $this->assertTrue($client->getOptions() === $options);
     }
 }

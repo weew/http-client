@@ -15,10 +15,10 @@ class HttpClientOptionsTest extends PHPUnit_Framework_TestCase {
 
     public function test_merge_options() {
         $options = new HttpClientOptions();
-        $this->assertEquals([], $options->getAll());
+        $this->assertEquals([], $options->toArray());
 
         $options->merge(['foo' => 'bar', 'bar' => 'foo']);
-        $this->assertEquals(['foo' => 'bar', 'bar' => 'foo'], $options->getAll());
+        $this->assertEquals(['foo' => 'bar', 'bar' => 'foo'], $options->toArray());
 
         $newOptions = new HttpClientOptions();
         $options->set('foobar', 'barfoo');

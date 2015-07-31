@@ -37,18 +37,11 @@ class HttpClientOptions implements IHttpClientOptions {
     }
 
     /**
-     * @return array
-     */
-    public function getAll() {
-        return $this->options;
-    }
-
-    /**
      * @param array|IHttpClientOptions $options
      */
     public function merge($options) {
         if ($options instanceof IHttpClientOptions) {
-            $options = $options->getAll();
+            $options = $options->toArray();
         }
 
         $this->options = array_merge($this->options, $options);
@@ -68,5 +61,12 @@ class HttpClientOptions implements IHttpClientOptions {
      */
     public function has($key) {
         return array_has($this->options, $key);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray() {
+        return $this->options;
     }
 }

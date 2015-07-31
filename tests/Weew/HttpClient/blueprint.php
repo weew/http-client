@@ -1,6 +1,5 @@
 <?php
 
-use Weew\Foundation\Globals\CookieGlobal;
 use Weew\Http\HttpResponse;
 use Weew\Http\HttpStatusCode;
 use Weew\HttpBlueprint\Blueprint;
@@ -10,20 +9,8 @@ require __DIR__.'/../../../vendor/autoload.php';
 
 $blueprint = new Blueprint();
 $blueprint
-    ->get('/')
-    ->post('foo', function() {
-        return new HttpResponse(HttpStatusCode::BAD_REQUEST, 'yolo');
-    })
-    ->get('cookie', function() {
-        $cookie = new CookieGlobal();
-
-        if ($cookie->has('foo')) {
-            return new HttpResponse(HttpStatusCode::NO_CONTENT);
-        } else {
-            $cookie->set('foo', 'bar');
-            return new HttpResponse();
-        }
-    });
+    ->get('/', new HttpResponse(HttpStatusCode::OK, 'bar'))
+    ->post('foo', new HttpResponse(HttpStatusCode::BAD_REQUEST, 'yolo'));
 
 $client = new BlueprintProxy();
 $client->addBlueprint($blueprint);

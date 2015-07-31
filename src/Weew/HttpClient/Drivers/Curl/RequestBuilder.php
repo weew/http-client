@@ -91,7 +91,7 @@ class RequestBuilder {
             $this->options->get(HttpClientOptions::VERIFY_SSL, true)
         );
 
-        foreach ($this->options->getAll() as $option => $value) {
+        foreach ($this->options->toArray() as $option => $value) {
             if (str_starts_with($option, 'CURLOPT_') and defined($option)) {
                 $this->resource->setOption(constant($option), $value);
             }
@@ -102,16 +102,8 @@ class RequestBuilder {
      * Process and apply request headers.
      */
     protected function setHeaders() {
-        $headers = $this->request->getHeaders()->getAll();
-        $curlHeaders = $this->createCurlHeaders($headers);
-        $this->resource->setOption(CURLOPT_HTTPHEADER, $curlHeaders);
-
-        if ($this->request->getBasicAuth()->hasBasicAuth()) {
-            $basicAuthHeader = $this->createBasicAuthHeader(
-                $this->request->getBasicAuth()->getBasicAuthToken()
-            );
-            $this->resource->setOption(CURLOPT_HTTPHEADER, [$basicAuthHeader]);
-        }
+        $headers = $this->request->getHeaders()->toFlatArray();
+        $this->resource->setOption(CURLOPT_HTTPHEADER, $headers);
     }
 
     /**
@@ -137,39 +129,5 @@ class RequestBuilder {
      */
     public function createUrl() {
         return $this->request->getUrl()->toString();
-    }
-
-    /**
-     * @param array $headers
-     *
-     * @return array
-     */
-    public function createCurlHeaders(array $headers) {
-        $curlHeaders = [];
-
-        foreach ($headers as $key => $value) {
-            $curlHeaders[] = $this->createCurlHeader($key, $value);
-        }
-
-        return $curlHeaders;
-    }
-
-    /**
-     * @param $key
-     * @param $value
-     *
-     * @return string
-     */
-    public function createCurlHeader($key, $value) {
-        return s('%s: %s', $key, $value);
-    }
-
-    /**
-     * @param $token
-     *
-     * @return string
-     */
-    public function createBasicAuthHeader($token) {
-        return s('Authorization: Basic %s', $token);
     }
 }

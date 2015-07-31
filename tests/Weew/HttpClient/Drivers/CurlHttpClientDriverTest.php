@@ -71,6 +71,7 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
             HttpStatusCode::OK,
             $response->getStatusCode()
         );
+        $this->assertEquals('bar', $response->getContent());
     }
 
     public function test_send_post_request() {

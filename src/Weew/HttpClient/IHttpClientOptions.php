@@ -2,12 +2,9 @@
 
 namespace Weew\HttpClient;
 
-interface IHttpClientOptions {
-    /**
-     * @return array
-     */
-    function getAll();
+use Weew\Foundation\Interfaces\IArrayable;
 
+interface IHttpClientOptions extends IArrayable {
     /**
      * @param $option
      *
