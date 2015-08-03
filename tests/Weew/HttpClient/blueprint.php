@@ -10,6 +10,7 @@ require __DIR__.'/../../../vendor/autoload.php';
 $blueprint = new Blueprint();
 $blueprint
     ->get('/', new HttpResponse(HttpStatusCode::OK, 'bar'))
+    ->get('headers', new HttpResponse(HttpStatusCode::OK, 2))
     ->post('foo', new HttpResponse(HttpStatusCode::BAD_REQUEST, 'yolo'));
 
 $client = new BlueprintProxy();
