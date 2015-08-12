@@ -50,7 +50,7 @@ class ResponseBuilder {
     public function createResponse() {
         $headers = $this->parser->getHeaders($this->response);
         $content = $this->parser->getContent($this->response);
-
+var_dump($headers);
         $httpResponse = new HttpResponse(
             $this->resource->getOption(CURLINFO_HTTP_CODE),
             $content,
