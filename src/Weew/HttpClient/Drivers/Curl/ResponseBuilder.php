@@ -51,10 +51,11 @@ class ResponseBuilder {
         $headers = $this->parser->getHeaders($this->response);
         $content = $this->parser->getContent($this->response);
 
-        $httpResponse = new HttpResponse();
-        $httpResponse->setStatusCode($this->resource->getOption(CURLINFO_HTTP_CODE));
-        $httpResponse->setHeaders(new HttpHeaders($headers));
-        $httpResponse->setContent($content);
+        $httpResponse = new HttpResponse(
+            $this->resource->getOption(CURLINFO_HTTP_CODE),
+            $content,
+            new HttpHeaders($headers)
+        );
 
         return $httpResponse;
     }

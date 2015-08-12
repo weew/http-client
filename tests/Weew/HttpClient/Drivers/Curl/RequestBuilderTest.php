@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Weew\HttpClient\Drivers;
+namespace Tests\Weew\HttpClient\Drivers\Curl;
 
 use PHPUnit_Framework_TestCase;
 use Weew\HttpClient\Drivers\Curl\RequestBuilder;

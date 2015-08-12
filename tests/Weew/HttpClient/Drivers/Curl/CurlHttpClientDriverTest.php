@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Weew\HttpClient\Drivers;
+namespace Tests\Weew\HttpClient\Drivers\Curl;
 
 use PHPUnit_Framework_TestCase;
 use Weew\HttpClient\Drivers\Curl\CurlHttpClientDriver;
@@ -24,24 +24,27 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
 
     public static $blueprintFile;
 
+    public static function getUrl() {
+        return new Url('http://localhost:6435');
+    }
+
     public static function setUpBeforeClass() {
-        $blueprintFile = __DIR__.'/../blueprint.php';
-        $url = new Url('http://localhost:6435');
+        $blueprintFile = __DIR__.'/../../blueprint.php';
+        $url = self::getUrl();
         $server = new BlueprintServer(
             $url->getSegments()->getHost(),
             $url->getSegments()->getPort(),
             $blueprintFile
         );
 
-        static::$blueprintFile = $blueprintFile;
-        static::$url = $url;
-        static::$server = $server;
+        self::$blueprintFile = $blueprintFile;
+        self::$server = $server;
 
         $server->start();
     }
 
     public static function tearDownAfterClass() {
-        static::$server->stop();
+        self::$server->stop();
     }
 
     public function test_create_client_with_driver() {
@@ -51,20 +54,9 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
 
     public function test_send_get_request() {
         $client = new HttpClient();
-
         $request = new HttpRequest(
             HttpRequestMethod::GET,
-            static::$url
-        );
-        $response = $client->send($request);
-        $this->assertEquals(
-            HttpStatusCode::OK,
-            $response->getStatusCode()
-        );
-
-        $request = new HttpRequest(
-            HttpRequestMethod::GET,
-            static::$url
+            self::getUrl()
         );
         $response = $client->send($request);
         $this->assertEquals(
@@ -77,15 +69,62 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
     public function test_send_post_request() {
         $client = new HttpClient();
 
-        $url = clone(static::$url);
-        $url->getSegments()->addPath('foo');
+        $url = self::getUrl();
+        $url->getSegments()->addPath('post');
         $request = new HttpRequest(HttpRequestMethod::POST, $url);
+        $request->getData()->set('value', 'yolo');
         $response = $client->send($request);
 
         $this->assertEquals(
             HttpStatusCode::BAD_REQUEST, $response->getStatusCode()
         );
         $this->assertEquals('yolo', $response->getContent());
+    }
+
+    public function test_send_and_received_headers() {
+        $client = new HttpClient();
+
+        $url = self::getUrl();
+        $url->getSegments()->addPath('headers');
+        $request = new HttpRequest(HttpRequestMethod::GET, $url);
+        $request->getHeaders()->set('header', 'foo');
+        $response = $client->send($request);
+
+        $this->assertEquals(
+            HttpStatusCode::OK, $response->getStatusCode()
+        );
+        $this->assertEquals(
+            'foo', $response->getHeaders()->find('header')
+        );
+        $this->assertEquals(
+            'swag', $response->getHeaders()->find('yolo')
+        );
+        $this->assertEquals(
+            ['foo', 'bar'], $response->getHeaders()->get('foo')
+        );
+    }
+
+    public function test_send_and_receive_cookies() {
+        $client = new HttpClient();
+
+        $url = self::getUrl();
+        $url->getSegments()->addPath('cookies');
+        $request = new HttpRequest(HttpRequestMethod::GET, $url);
+        $request->getCookieJar()->set('foo', 'bar');
+        $request->getCookieJar()->set('bar', 'foo');
+        $response = $client->send($request);
+
+        $cookie = $response->getCookies()->findByName('yolo');
+        $this->assertNotNull($cookie);
+        $this->assertEquals(
+            'swag', $cookie->getValue()
+        );
+        $this->assertEquals(
+            'bar', $response->getCookies()->findByName('foo')->getValue()
+        );
+        $this->assertEquals(
+            'foo', $response->getCookies()->findByName('bar')->getValue()
+        );
     }
 
     public function test_follow_redirects() {

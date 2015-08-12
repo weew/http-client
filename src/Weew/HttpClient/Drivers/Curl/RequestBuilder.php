@@ -51,6 +51,13 @@ class RequestBuilder {
         $this->request = $httpRequest;
         $this->resource = $resource;
 
+        $this->build();
+    }
+
+    /**
+     * Build the request.
+     */
+    public function build() {
         $this->setOptions();
         $this->setHeaders();
         $this->setContent();
