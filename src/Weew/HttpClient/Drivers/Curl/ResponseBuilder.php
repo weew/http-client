@@ -51,12 +51,6 @@ class ResponseBuilder {
         $headers = $this->parser->getHeaders($this->response);
         $content = $this->parser->getContent($this->response);
 
-        if (array_get($headers, 'set-cookie')) {
-            var_dump($this->response);
-            // foo
-            var_dump($headers);
-        }
-
         $httpResponse = new HttpResponse(
             $this->resource->getOption(CURLINFO_HTTP_CODE),
             $content,
