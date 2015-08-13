@@ -53,6 +53,7 @@ class ResponseBuilder {
 
         if (array_get($headers, 'set-cookie')) {
             var_dump($this->response);
+            // foo
             var_dump($headers);
         }
 
