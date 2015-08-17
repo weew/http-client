@@ -15,7 +15,7 @@ class CurlHttpClientDriver implements IHttpClientDriver {
      * @return IHttpResponse
      */
     public function send(IHttpClientOptions $options, IHttpRequest $httpRequest) {
-        $requestBuilder = new RequestBuilder($options, $httpRequest);
+        $requestBuilder = new RequestBuilder($httpRequest, $options);
         $responseBuilder = $requestBuilder->send();
         $httpResponse = $responseBuilder->createResponse();
         $requestBuilder->close();

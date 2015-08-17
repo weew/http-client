@@ -12,7 +12,7 @@ class RequestBuilderTest extends PHPUnit_Framework_TestCase {
     public function test_create_url() {
         $url = new Url('http://localhost:2000?foo=bar');
         $request = new HttpRequest(HttpRequestMethod::GET, $url);
-        $builder = new RequestBuilder(null, $request);
+        $builder = new RequestBuilder($request);
         $this->assertEquals(
             $url->toString(), $builder->createUrl()
         );

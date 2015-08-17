@@ -21,26 +21,17 @@ class RequestBuilder {
     protected $options;
 
     /**
-     * @var IHttpRequest
-     */
-    protected $httpRequest;
-
-    /**
-     * @param IHttpClientOptions $options
      * @param IHttpRequest $httpRequest
+     * @param IHttpClientOptions $options
      * @param ICurlResource $resource
      */
     public function __construct(
+        IHttpRequest $httpRequest,
         IHttpClientOptions $options = null,
-        IHttpRequest $httpRequest = null,
         ICurlResource $resource = null
     ) {
         if ( ! $options instanceof IHttpClientOptions) {
             $options = new HttpClientOptions();
-        }
-
-        if ( ! $httpRequest instanceof IHttpRequest) {
-            $httpRequest = new HttpRequest();
         }
 
         if ( ! $resource instanceof ICurlResource) {
@@ -53,6 +44,11 @@ class RequestBuilder {
 
         $this->build();
     }
+
+    /**
+     * @var IHttpRequest
+     */
+    protected $httpRequest;
 
     /**
      * Build the request.
@@ -121,8 +117,6 @@ class RequestBuilder {
 
         if ($this->request->hasContent()) {
             $body = $this->request->getContent();
-        } else if ($this->request->getData()->count() > 0) {
-            $body = $this->request->getData()->getDataEncoded();
         }
 
         if ($body !== null) {
