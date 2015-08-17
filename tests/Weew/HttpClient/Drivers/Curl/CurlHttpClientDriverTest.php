@@ -32,8 +32,8 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
         $blueprintFile = __DIR__.'/../../blueprint.php';
         $url = self::getUrl();
         $server = new BlueprintServer(
-            $url->getSegments()->getHost(),
-            $url->getSegments()->getPort(),
+            $url->getHost(),
+            $url->getPort(),
             $blueprintFile
         );
 
@@ -70,7 +70,7 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
         $client = new HttpClient();
 
         $url = self::getUrl();
-        $url->getSegments()->addPath('post');
+        $url->addPath('post');
         $request = new HttpRequest(HttpRequestMethod::POST, $url);
         $request->getData()->set('value', 'yolo');
         $response = $client->send($request);
@@ -85,7 +85,7 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
         $client = new HttpClient();
 
         $url = self::getUrl();
-        $url->getSegments()->addPath('headers');
+        $url->addPath('headers');
         $request = new HttpRequest(HttpRequestMethod::GET, $url);
         $request->getHeaders()->set('header', 'foo');
         $response = $client->send($request);
@@ -108,7 +108,7 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
         $client = new HttpClient();
 
         $url = self::getUrl();
-        $url->getSegments()->addPath('cookies');
+        $url->addPath('cookies');
         $request = new HttpRequest(HttpRequestMethod::GET, $url);
         $request->getCookieJar()->set('foo', 'bar');
         $request->getCookieJar()->set('bar', 'foo');
