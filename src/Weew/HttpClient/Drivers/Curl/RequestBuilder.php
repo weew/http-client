@@ -94,7 +94,7 @@ class RequestBuilder {
         );
 
         foreach ($this->options->toArray() as $option => $value) {
-            if (str_starts_with($option, 'CURLOPT_') and defined($option)) {
+            if (str_starts_with($option, 'CURLOPT_') && defined($option)) {
                 $this->resource->setOption(constant($option), $value);
             }
         }
