@@ -4,7 +4,6 @@ namespace Weew\HttpClient\Drivers\Curl;
 
 use Weew\Curl\CurlResource;
 use Weew\Curl\ICurlResource;
-use Weew\Http\HttpRequest;
 use Weew\Http\IHttpRequest;
 use Weew\HttpClient\HttpClientOptions;
 use Weew\HttpClient\IHttpClientOptions;
@@ -21,12 +20,17 @@ class RequestBuilder {
     protected $options;
 
     /**
-     * @param IHttpRequest $httpRequest
+     * @var IHttpRequest
+     */
+    protected $request;
+
+    /**
+     * @param IHttpRequest $request
      * @param IHttpClientOptions $options
      * @param ICurlResource $resource
      */
     public function __construct(
-        IHttpRequest $httpRequest,
+        IHttpRequest $request,
         IHttpClientOptions $options = null,
         ICurlResource $resource = null
     ) {
@@ -39,16 +43,11 @@ class RequestBuilder {
         }
 
         $this->options = $options;
-        $this->request = $httpRequest;
+        $this->request = $request;
         $this->resource = $resource;
 
         $this->build();
     }
-
-    /**
-     * @var IHttpRequest
-     */
-    protected $httpRequest;
 
     /**
      * Build the request.
