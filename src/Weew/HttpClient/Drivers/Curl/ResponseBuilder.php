@@ -52,7 +52,7 @@ class ResponseBuilder {
         $content = $this->parser->getContent($this->response);
 
         $httpResponse = new HttpResponse(
-            $this->resource->getOption(CURLINFO_HTTP_CODE),
+            $this->resource->getInfo(CURLINFO_HTTP_CODE),
             $content,
             new HttpHeaders($headers)
         );

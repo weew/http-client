@@ -13,9 +13,6 @@
             "": "src/"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^4.7"
-    },
     "require": {
         "weew/php-http": "0.*",
         "weew/php-url": "0.*",
@@ -23,5 +20,9 @@
         "weew/php-helpers-array": "0.*",
         "weew/php-http-blueprint": "0.*",
         "weew/php-curl-wrapper": "0.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7",
+        "satooshi/php-coveralls": "^0.6.1"
     }
 }
