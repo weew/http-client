@@ -12,6 +12,10 @@
 [HTTP Layer](https://github.com/weew/php-http): offers response and request objects,
 handles cookies, headers and much more.
 
+## Installation
+
+`composer require weew/php-http-client`
+
 ## Sending Requests and receiving Responses
 
 Please check out the HTTP Layer project referenced above, since it does
