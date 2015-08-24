@@ -5,9 +5,20 @@
 [![Coverage Status](https://coveralls.io/repos/weew/php-http-client/badge.svg?branch=master&service=github)](https://coveralls.io/github/weew/php-http-client?branch=master)
 [![License](https://poser.pugx.org/weew/php-http-client/license)](https://packagist.org/packages/weew/php-http-client)
 
-## Usage
+## Related Projects
 
-This client is based on [this](https://github.com/weew/php-http) great HTTP layer.
+[URL](https://github.com/weew/php-url): used throughout the project.
+
+[HTTP Layer](https://github.com/weew/php-http): offers response and request objects,
+handles cookies, headers and much more.
+
+## Sending Requests and receiving Responses
+
+Please check out the HTTP Layer project referenced above, since it does
+most of the work and offers a documentation for the underlying HttpRequest and
+HttpResponse objects.
+
+This library uses CURL to transfer and receive data.
 
 ##### Basic example
 
