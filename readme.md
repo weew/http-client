@@ -31,5 +31,10 @@ $client = new HttpClient();
 $request = new HttpRequest(
 	HttpRequestMethod::GET, new Url('http://google.com')
 );
-$response = $client->send($request); // returns an HttpResponse
+
+// returns an HttpResponse
+$response = $client->send($request); 
+
+// send response directly to the browser (act like a proxy)
+$response->send();
 ```
