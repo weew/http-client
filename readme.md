@@ -7,21 +7,21 @@
 
 ## Table of contents
 - [Installation](#installation)
+- [Introduction](#introduction)
 - [Usage](#usage)
-    - [Basic example](#basic-example)
 - [Related projects](#related-projects)
 
 ## Installation
 
 `composer require weew/php-http-client`
 
-## Usage
+## Introduction
 
 Please check out the HTTP Layer project referenced above, since it does most of the work and offers a documentation for the underlying HttpRequest and HttpResponse objects.
 
 This library uses CURL to transfer and receive data.
 
-### Basic example
+## Usage
 
 Below is a very basic example on how to use it.
 
