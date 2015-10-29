@@ -5,36 +5,41 @@
 [![Coverage Status](https://coveralls.io/repos/weew/php-http-client/badge.svg?branch=master&service=github)](https://coveralls.io/github/weew/php-http-client?branch=master)
 [![License](https://poser.pugx.org/weew/php-http-client/license)](https://packagist.org/packages/weew/php-http-client)
 
-## Related Projects
-
-[URL](https://github.com/weew/php-url): used throughout the project.
-
-[HTTP Layer](https://github.com/weew/php-http): offers response and request objects,
-handles cookies, headers and much more.
+## Table of contents
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Basic example](#basic-example)
+- [Related projects](#related-projects)
 
 ## Installation
 
 `composer require weew/php-http-client`
 
-## Sending Requests and receiving Responses
+## Usage
 
-Please check out the HTTP Layer project referenced above, since it does
-most of the work and offers a documentation for the underlying HttpRequest and
-HttpResponse objects.
+Please check out the HTTP Layer project referenced above, since it does most of the work and offers a documentation for the underlying HttpRequest and HttpResponse objects.
 
 This library uses CURL to transfer and receive data.
 
-##### Basic example
+### Basic example
+
+Below is a very basic example on how to use it.
 
 ```php
 $client = new HttpClient();
 $request = new HttpRequest(
-	HttpRequestMethod::GET, new Url('http://google.com')
+    HttpRequestMethod::GET, new Url('http://google.com')
 );
 
 // returns an HttpResponse
-$response = $client->send($request); 
+$response = $client->send($request);
 
 // send response directly to the browser (act like a proxy)
 $response->send();
 ```
+
+## Related Projects
+
+[URL](https://github.com/weew/php-url): used throughout the project.
+[HTTP Layer](https://github.com/weew/php-http): offers response and request objects,
+handles cookies, headers and much more.
