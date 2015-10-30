@@ -40,6 +40,6 @@ $response->send();
 
 ## Related Projects
 
-[URL](https://github.com/weew/php-url): used throughout the project.
-[HTTP Layer](https://github.com/weew/php-http): offers response and request objects,
+- [URL](https://github.com/weew/php-url): used throughout the project.
+- [HTTP Layer](https://github.com/weew/php-http): offers response and request objects,
 handles cookies, headers and much more.
