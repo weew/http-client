@@ -1,9 +1,11 @@
 # HTTP client for PHP
 
-[![Build Status](https://travis-ci.org/weew/php-http-client.svg?branch=master)](https://travis-ci.org/weew/php-http-client)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/weew/php-http-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/weew/php-http-client/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/weew/php-http-client/badge.svg?branch=master&service=github)](https://coveralls.io/github/weew/php-http-client?branch=master)
-[![License](https://poser.pugx.org/weew/php-http-client/license)](https://packagist.org/packages/weew/php-http-client)
+[![Build Status](https://img.shields.io/travis/weew/php-http-client.svg)](https://travis-ci.org/weew/php-http-client)
+[![Code Quality](https://img.shields.io/scrutinizer/g/weew/php-http-client.svg)](https://scrutinizer-ci.com/g/weew/php-http-client)
+[![Test Coverage](https://img.shields.io/coveralls/weew/php-http-client.svg)](https://coveralls.io/github/weew/php-http-client)
+[![Dependencies](https://img.shields.io/versioneye/d/php/weew:php-http-client.svg)](https://versioneye.com/php/weew:php-http-client)
+[![Version](https://img.shields.io/packagist/v/weew/php-http-client.svg)](https://packagist.org/packages/weew/php-http-client)
+[![Licence](https://img.shields.io/packagist/l/weew/php-http-client.svg)](https://packagist.org/packages/weew/php-http-client)
 
 ## Table of contents
 - [Installation](#installation)
