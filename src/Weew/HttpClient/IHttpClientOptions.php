@@ -2,7 +2,7 @@
 
 namespace Weew\HttpClient;
 
-use Weew\Foundation\Interfaces\IArrayable;
+use Weew\Contracts\IArrayable;
 
 interface IHttpClientOptions extends IArrayable {
     /**
