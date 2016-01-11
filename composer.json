@@ -13,6 +13,11 @@
             "": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require": {
         "weew/php-http": "^1.0.0",
         "weew/php-url": "^1.0.0",

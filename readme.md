@@ -40,6 +40,14 @@ $response = $client->send($request);
 $response->send();
 ```
 
+## JsonClient
+
+There is a slightly different implementation of the `HttpClient` that is meant to be used whenever you are sure that you will always receive json responses. `JsonClient` will automatically cast `HttpResponse` to a `JsonResponse`.
+
+```php
+$client = new JsonClient();
+```
+
 ## Related Projects
 
 - [URL](https://github.com/weew/php-url): used throughout the project.
