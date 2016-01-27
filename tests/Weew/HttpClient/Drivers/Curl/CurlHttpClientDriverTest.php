@@ -8,6 +8,7 @@ use Weew\Http\HttpRequest;
 use Weew\Http\HttpRequestMethod;
 use Weew\Http\HttpStatusCode;
 use Weew\HttpBlueprint\BlueprintServer;
+use Weew\HttpClient\Exceptions\HostUnreachableException;
 use Weew\HttpClient\HttpClient;
 use Weew\Url\Url;
 
@@ -166,5 +167,12 @@ class CurlHttpClientDriverTest extends PHPUnit_Framework_TestCase {
 
         $response = $client->send($request);
         $this->assertTrue($response->isOk());
+    }
+
+    public function test_send_request_to_unreachable_host() {
+        $client = new HttpClient();
+        $request = new HttpRequest(HttpRequestMethod::GET, new Url('http://foo.bar'));
+        $this->setExpectedException(HostUnreachableException::class);
+        $client->send($request);
     }
 }

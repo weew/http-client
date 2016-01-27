@@ -7,6 +7,7 @@ use Weew\Curl\ICurlResponseParser;
 use Weew\Curl\ResponseParser;
 use Weew\Http\HttpHeaders;
 use Weew\Http\HttpResponse;
+use Weew\HttpClient\Exceptions\HostUnreachableException;
 
 class ResponseBuilder {
     /**
@@ -46,15 +47,23 @@ class ResponseBuilder {
 
     /**
      * @return HttpResponse
+     * @throws HostUnreachableException
      */
     public function createResponse() {
         $headers = $this->parser->getHeaders($this->response);
         $content = $this->parser->getContent($this->response);
+        $statusCode = $this->resource->getInfo(CURLINFO_HTTP_CODE);
+
+        if ($statusCode === 0) {
+            $url = $this->resource->getInfo(CURLINFO_EFFECTIVE_URL);
+
+            throw new HostUnreachableException(
+                s('Host "%s" is unreachable.', $url)
+            );
+        }
 
         $httpResponse = new HttpResponse(
-            $this->resource->getInfo(CURLINFO_HTTP_CODE),
-            $content,
-            new HttpHeaders($headers)
+            $statusCode, $content, new HttpHeaders($headers)
         );
 
         return $httpResponse;
