@@ -66,6 +66,10 @@ class ResponseBuilder {
             $statusCode, $content, new HttpHeaders($headers)
         );
 
+        // remove this header to be able to return response directly
+        // to the browser without causing an error
+        $httpResponse->getHeaders()->remove('transfer-encoding');
+
         return $httpResponse;
     }
 }
