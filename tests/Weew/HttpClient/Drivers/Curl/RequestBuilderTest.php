@@ -10,11 +10,11 @@ use Weew\Url\Url;
 
 class RequestBuilderTest extends PHPUnit_Framework_TestCase {
     public function test_create_url() {
-        $url = new Url('http://localhost:2000?foo=bar');
+        $url = new Url('http://localhost:2000?foo=bar baz');
         $request = new HttpRequest(HttpRequestMethod::GET, $url);
         $builder = new RequestBuilder($request);
         $this->assertEquals(
-            $url->toString(), $builder->createUrl()
+            'http://localhost:2000?foo=bar%20baz', $builder->createUrl()
         );
     }
 }

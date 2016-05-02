@@ -128,6 +128,8 @@ class RequestBuilder {
      * @return string
      */
     public function createUrl() {
-        return $this->request->getUrl()->toString();
+        // for whatever reason, curl does not properly
+        // convert whitespaces inside array query parameters
+        return str_replace(' ', '%20', $this->request->getUrl()->toString());
     }
 }
