@@ -88,10 +88,13 @@ class RequestBuilder {
             $this->options->get(HttpClientOptions::FOLLOW_REDIRECT, false)
         );
 
-        $this->resource->setOption(
-            CURLOPT_SSL_VERIFYPEER,
-            $this->options->get(HttpClientOptions::VERIFY_SSL, true)
-        );
+        if ($this->options->get(HttpClientOptions::VERIFY_SSL, true)) {
+            $this->resource->setOption(CURLOPT_SSL_VERIFYPEER, true);
+            $this->resource->setOption(CURLOPT_SSL_VERIFYHOST, 2);
+        } else {
+            $this->resource->setOption(CURLOPT_SSL_VERIFYPEER, false);
+            $this->resource->setOption(CURLOPT_SSL_VERIFYHOST, false);
+        }
 
         foreach ($this->options->toArray() as $option => $value) {
             if (str_starts_with($option, 'CURLOPT_') && defined($option)) {
