@@ -62,9 +62,9 @@ class RequestBuilder {
      * @return ResponseBuilder
      */
     public function send() {
-        $httpResponse = $this->resource->exec();
+        $curlResult = $this->resource->exec();
 
-        return new ResponseBuilder($httpResponse, $this->resource);
+        return new ResponseBuilder($curlResult, $this->resource);
     }
 
     /**

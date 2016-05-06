@@ -7,7 +7,8 @@ use Weew\Curl\ICurlResponseParser;
 use Weew\Curl\ResponseParser;
 use Weew\Http\HttpHeaders;
 use Weew\Http\HttpResponse;
-use Weew\HttpClient\Exceptions\HostUnreachableException;
+use Weew\Http\IHttpResponse;
+use Weew\HttpClient\Drivers\Curl\Exceptions\CurlException;
 
 class ResponseBuilder {
     /**
@@ -18,19 +19,24 @@ class ResponseBuilder {
     /**
      * @var mixed
      */
-    protected $response;
+    protected $curlResult;
 
     /**
-     * @param $response
+     * @var ICurlResponseParser
+     */
+    protected $parser;
+
+    /**
+     * @param $curlResult
      * @param ICurlResource $resource
      * @param ICurlResponseParser $parser
      */
     public function __construct(
-        $response,
+        $curlResult,
         ICurlResource $resource,
         ICurlResponseParser $parser = null
     ) {
-        $this->response = $response;
+        $this->curlResult = $curlResult;
         $this->resource = $resource;
 
         if ( ! $parser instanceof ICurlResponseParser) {
@@ -41,35 +47,45 @@ class ResponseBuilder {
     }
 
     /**
-     * @var ICurlResponseParser
-     */
-    private $parser;
-
-    /**
      * @return HttpResponse
-     * @throws HostUnreachableException
+     * @throws CurlException
      */
     public function createResponse() {
-        $headers = $this->parser->getHeaders($this->response);
-        $content = $this->parser->getContent($this->response);
+        $this->checkErrors();
+
+        $headers = $this->parser->getHeaders($this->curlResult);
+        $content = $this->parser->getContent($this->curlResult);
         $statusCode = $this->resource->getInfo(CURLINFO_HTTP_CODE);
-
-        if ($statusCode === 0) {
-            $url = $this->resource->getInfo(CURLINFO_EFFECTIVE_URL);
-
-            throw new HostUnreachableException(
-                s('Host "%s" is unreachable.', $url)
-            );
-        }
 
         $httpResponse = new HttpResponse(
             $statusCode, $content, new HttpHeaders($headers)
         );
 
+        $this->cleanUpResponse($httpResponse);
+
+        return $httpResponse;
+    }
+
+    /**
+     * @throws CurlException
+     */
+    protected function checkErrors() {
+        if ($this->resource->getErrorCode() !== 0) {
+            throw new CurlException(s(
+                'Http call %s "%s" resulted in an error. %s.',
+                strtoupper($this->resource->getOption(CURLOPT_CUSTOMREQUEST)),
+                $this->resource->getInfo(CURLINFO_EFFECTIVE_URL),
+                $this->resource->getErrorMessage()
+            ));
+        }
+    }
+
+    /**
+     * @param IHttpResponse $httpResponse
+     */
+    protected function cleanUpResponse(IHttpResponse $httpResponse) {
         // remove this header to be able to return response directly
         // to the browser without causing an error
         $httpResponse->getHeaders()->remove('transfer-encoding');
-
-        return $httpResponse;
     }
 }
