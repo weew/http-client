@@ -1,11 +1,10 @@
 # HTTP client for PHP
 
-[![Build Status](https://img.shields.io/travis/weew/php-http-client.svg)](https://travis-ci.org/weew/php-http-client)
-[![Code Quality](https://img.shields.io/scrutinizer/g/weew/php-http-client.svg)](https://scrutinizer-ci.com/g/weew/php-http-client)
-[![Test Coverage](https://img.shields.io/coveralls/weew/php-http-client.svg)](https://coveralls.io/github/weew/php-http-client)
-[![Dependencies](https://img.shields.io/versioneye/d/php/weew:php-http-client.svg)](https://versioneye.com/php/weew:php-http-client)
-[![Version](https://img.shields.io/packagist/v/weew/php-http-client.svg)](https://packagist.org/packages/weew/php-http-client)
-[![Licence](https://img.shields.io/packagist/l/weew/php-http-client.svg)](https://packagist.org/packages/weew/php-http-client)
+[![Build Status](https://img.shields.io/travis/weew/http-client.svg)](https://travis-ci.org/weew/http-client)
+[![Code Quality](https://img.shields.io/scrutinizer/g/weew/http-client.svg)](https://scrutinizer-ci.com/g/weew/http-client)
+[![Test Coverage](https://img.shields.io/coveralls/weew/http-client.svg)](https://coveralls.io/github/weew/http-client)
+[![Version](https://img.shields.io/packagist/v/weew/http-client.svg)](https://packagist.org/packages/weew/http-client)
+[![Licence](https://img.shields.io/packagist/l/weew/http-client.svg)](https://packagist.org/packages/weew/http-client)
 
 ## Table of contents
 - [Installation](#installation)
@@ -15,7 +14,7 @@
 
 ## Installation
 
-`composer require weew/php-http-client`
+`composer require weew/http-client`
 
 ## Introduction
 
@@ -50,6 +49,6 @@ $client = new JsonClient();
 
 ## Related Projects
 
-- [URL](https://github.com/weew/php-url): used throughout the project.
-- [HTTP Layer](https://github.com/weew/php-http): offers response and request objects,
+- [URL](https://github.com/weew/url): used throughout the project.
+- [HTTP Layer](https://github.com/weew/http): offers response and request objects,
 handles cookies, headers and much more.
