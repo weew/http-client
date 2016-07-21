@@ -1,6 +1,6 @@
 {
     "name": "weew/http-client",
-    "description": "Extendable curl client.",
+    "description": "Extendable http client.",
     "license": "MIT",
     "authors": [
         {
