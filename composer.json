@@ -20,7 +20,8 @@
     },
     "require": {
         "weew/http": "^1.11",
-        "weew/curl-wrapper": "^1.1"
+        "weew/curl-wrapper": "^1.1",
+        "weew/url": "^v2.2.0"
     },
     "require-dev": {
         "weew/http-blueprint": "^2.1.0",
